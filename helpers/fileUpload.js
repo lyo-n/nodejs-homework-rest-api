@@ -5,6 +5,23 @@ require('dotenv').config()
 const { TEMP_DIR } = process.env
 const tempDir = path.join(process.cwd(), TEMP_DIR)
 
+const fs = require('fs/promises');
+
+const isAccessible = path => {
+  return fs
+    .access(path)
+    .then(() => true)
+    .catch(() => false);
+};
+
+const createFolderIsExist = async folder => {
+  if (!(await isAccessible(folder))) {
+    await fs.mkdir(folder);
+  }
+};
+
+module.exports = createFolderIsExist;
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, tempDir)
