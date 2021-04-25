@@ -25,7 +25,7 @@ describe('Testing the route api/users', () => {
   describe('Testing user registration', () => {
     it('Registration success should return 201 status', async done => {
       const res = await request(app)
-        .post('/api/users/auth/register')
+        .post('/api/users/register')
         .send(newUser)
         .set('Accept', 'application/json');
       expect(res.status).toEqual(201);
@@ -35,7 +35,7 @@ describe('Testing the route api/users', () => {
 
     it('Registration conflict error should return 409 status', async done => {
       const res = await request(app)
-        .post('/api/users/auth/register')
+        .post('/api/users/register')
         .send(newUser)
         .set('Accept', 'application/json');
       expect(res.status).toEqual(409);
@@ -45,7 +45,7 @@ describe('Testing the route api/users', () => {
 
     it('Registration without required fields should return 400 status', async done => {
       const res = await request(app)
-        .post('/api/users/auth/register')
+        .post('/api/users/register')
         .send({ email: '', password: '' })
         .set('Accept', 'application/json');
       expect(res.status).toEqual(400);
@@ -56,7 +56,7 @@ describe('Testing the route api/users', () => {
   describe('Testing user authorization', () => {
     it('Login success should return 200 status', async done => {
       const res = await request(app)
-        .post('/api/users/auth/login')
+        .post('/api/users/login')
         .send(newUser)
         .set('Accept', 'application/json');
       expect(res.status).toEqual(200);
@@ -66,7 +66,7 @@ describe('Testing the route api/users', () => {
 
     it('Login auth error should return 401 status', async done => {
       const res = await request(app)
-        .post('/api/users/auth/login')
+        .post('/api/users/login')
         .send({ email: 'fake_email@mail.com', password: '1212123' })
         .set('Accept', 'application/json');
       expect(res.status).toEqual(401);
@@ -76,7 +76,7 @@ describe('Testing the route api/users', () => {
 
     it('Login validation error should return 400 status', async done => {
       const res = await request(app)
-        .post('/api/users/auth/login')
+        .post('/api/users/login')
         .send({ email: '', password: '' })
         .set('Accept', 'application/json');
       expect(res.status).toEqual(400);
@@ -159,7 +159,7 @@ describe('Testing the route api/users', () => {
   describe('Testing user logout', () => {
     it('Logout success should return 204 status', async done => {
       const res = await request(app)
-        .post('/api/users/auth/logout')
+        .post('/api/users/logout')
         .set('Authorization', `Bearer ${token}`);
       expect(res.status).toEqual(204);
       done();
@@ -167,7 +167,7 @@ describe('Testing the route api/users', () => {
 
     it('Logout unauthorized error should return 401 status', async done => {
       const res = await request(app)
-        .post('/api/users/auth/logout')
+        .post('/api/users/logout')
         .set('Authorization', `Bearer ${12345}`);
       expect(res.status).toEqual(401);
       done();
